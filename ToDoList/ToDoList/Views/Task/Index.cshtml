@@ -1,0 +1,56 @@
+﻿@model IEnumerable<ToDoList.Data.Models.Task>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<div class="my-4">
+    <h1 class="text-lg text-white">Всички задачи</h1>
+</div>
+
+<p class="mt-2">
+    <a asp-action="Create" class="text-decoration-none text-white hover:bg-blue-700 bg-blue-800 p-2">Създай Нова Задача</a>
+</p>
+<div class="mt-4 flex text-white p-4 font-bold bg-black bg-opacity-20 items-center">
+    <div class="w-3/4">@Html.DisplayNameFor(model => model.Title)</div>
+    @*<div class="w-1/2">@Html.DisplayNameFor(model => model.Description)</div>
+    <div class="w-1/4"> @Html.DisplayNameFor(model => model.DateAndTime)</div>*@
+    <div class="w-1/4 ml-10">Действия:</div>
+</div>
+
+@foreach (var item in Model)
+{
+    <div class="flex text-white odd:bg-white p-4 bg-black bg-opacity-10 items-center">
+        <div class="w-3/4">@Html.DisplayFor(model => item.Title)</div>
+        @*<div class="w-1/2">@Html.DisplayFor(model => item.Description)</div>
+        <div class="w-1/4"> @Html.DisplayFor(model => item.DateAndTime)</div>*@
+    <div class="w-1/4 ml-10">
+        <a asp-action="Edit" asp-route-id="@item.Id" class="text-decoration-none text-white hover:bg-blue-700 bg-blue-800 p-2">Редакция</a>
+        <a onclick="document.getElementById('delete_@item.Id').classList.remove('hidden')" class="cursor-pointer ml-2 text-decoration-none text-white hover:bg-blue-700 bg-blue-800 p-2">Изтриване</a>
+        <div id="delete_@item.Id"class="hidden flex flex-col space-y-4 min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-50 outline-none focus:outline-none bg-gray-900 bg-opacity-70">
+            <div class="flex flex-col p-8 bg-gray-800 shadow-md hover:shodow-lg rounded-2xl">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             class="w-16 h-16 rounded-2xl p-3 border border-gray-800 text-blue-400 bg-gray-900" fill="none"
+                             viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <div class="flex flex-col ml-3">
+                            <div class="font-medium leading-none text-gray-100">Сигурни ли сте, че искате да изтриете избраната задача?</div>
+                        </div>
+                    </div>
+                    <form asp-action="Delete">
+                        <input type="hidden" asp-for="@item.Id" name="Id" />
+                        <input type="submit" value="Да" class="cursor-pointer flex-no-shrink bg-red-500 px-5 ml-4 py-2 text-sm shadow-sm hover:shadow-lg font-medium tracking-wider border-2 border-red-500 text-white rounded-full" />
+                    </form>
+                    <a onclick="document.getElementById('delete_@item.Id').classList.add('hidden')" class="cursor-pointer flex-no-shrink px-5 ml-4 py-2 text-sm shadow-sm hover:shadow-lg font-medium tracking-wider border-2 text-white rounded-full">Не</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+}
+
+
